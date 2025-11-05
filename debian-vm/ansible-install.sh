@@ -1,22 +1,21 @@
 #!/bin/bash
-#This is an script for installng ansible on debian based distro's
+# This is a script for installing Ansible on Debian-based distros
 
-# variables
 PACKAGES_TO_INSTALL=(python3 pipx)
 
-# install
-echo "apt-get update..."
+echo "Updating apt..."
 sudo apt-get update -qq
 
-echo "Install dependencies..."
-for pkgs in "${PACKAGES_TO_INSTALL[@]}" ; do
-	sudo apt-get install -qq -y "$pkgs" ;
+echo "Installing dependencies..."
+for pkg in "${PACKAGES_TO_INSTALL[@]}"; do
+    sudo apt-get install -qq -y "$pkg"
 done
 
-echo "Install full ansible..."
-pipx install --include-deps ansible
+echo "Installing Ansible (system-wide)..."
+# Run pipx as the vagrant user, not root
+sudo -u vagrant pipx install --include-deps ansible
 
-echo "Add path"
-pipx ensurepath
+echo "Ensuring PATH for vagrant user..."
+sudo -u vagrant pipx ensurepath
 
-echo "Done! Close and reopen your terminal to use 'ansible' command."
+echo "Done! Reopen your terminal or run 'source ~/.bashrc' to use 'ansible'."
