@@ -11,11 +11,11 @@ for pkg in "${PACKAGES_TO_INSTALL[@]}"; do
     sudo apt-get install -qq -y "$pkg"
 done
 
-echo "Installing Ansible (system-wide)..."
+echo "Installing Ansible..."
 # Run pipx as the vagrant user, not root
-sudo -u vagrant pipx install --include-deps ansible
+pipx install --include-deps ansible
 
 echo "Ensuring PATH for vagrant user..."
-sudo -u vagrant pipx ensurepath
+pipx ensurepath
 
 echo "Done! Reopen your terminal or run 'source ~/.bashrc' to use 'ansible'."
