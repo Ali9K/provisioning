@@ -13,9 +13,11 @@ done
 
 echo "Installing Ansible..."
 # Run pipx as the vagrant user, not root
-pipx install --include-deps ansible
+sudo -u vagrant pipx install --include-deps ansible
 
 echo "Ensuring PATH for vagrant user..."
-pipx ensurepath
+sudo -u vagrant pipx ensurepath
+
+sudo -u vagrant bash -c "source ~/.bashrc"
 
 echo "Done! Reopen your terminal or run 'source ~/.bashrc' to use 'ansible'."
