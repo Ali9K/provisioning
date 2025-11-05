@@ -1,0 +1,36 @@
+IMAGE_DEBIAN_13 = "bento/debian-13.1"
+
+ENV['VAGRANT_NO_PARALLEL'] = 'yes'
+
+Vagrant.configure("2") do |config|
+    
+    FIRST_NODE = 1
+    (1..FIRST_NODE).each do |num|
+        config.vm.define "vm1_#{num}" do |vm1|
+            vm1.vm.box = IMAGE_DEBIAN_13
+            vm1.vm.hostname = "vm1_#{num}"
+            vm1.vm.network "private_network", ip: "192.168.56.10#{num}"
+            vm1.vm.provider "virtualbox" do |provider|
+                provider.name = "vm1_#{num}"
+                provider.memory = 2048
+                provider.cpus = 1
+            end
+            vm1.vm.provision "shell", path: "install-docker.sh"
+        end
+    end
+
+    SECOND_NODE = 1
+    (1..SECOND_NODE).each do |num|
+        config.vm.define "vm2_#{num}" do |vm2|
+            vm2.vm.box = IMAGE_DEBIAN_13
+            vm2.vm.hostname = "vm2_#{num}"
+            vm2.vm.network "private_network", ip: "192.168.56.20#{num}"
+            vm2.vm.provider "virtualbox" do |provider|
+                provider.name = "vm2_#{num}"
+                provider.memory = 2048
+                provider.cpus = 1
+            end
+            vm2.vm.provision "shell", path: "install-ansible.sh"
+        end
+    end
+end
