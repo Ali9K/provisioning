@@ -8,14 +8,14 @@ Vagrant.configure("2") do |config|
     (1..FIRST_NODE).each do |num|
         config.vm.define "vm1_#{num}" do |vm1|
             vm1.vm.box = IMAGE_DEBIAN_13
-            vm1.vm.hostname = "vm1_#{num}"
+            vm1.vm.hostname = "vm1-#{num}"
             vm1.vm.network "private_network", ip: "192.168.56.10#{num}"
             vm1.vm.provider "virtualbox" do |provider|
                 provider.name = "vm1_#{num}"
                 provider.memory = 2048
                 provider.cpus = 1
             end
-            vm1.vm.provision "shell", path: "install-docker.sh"
+            vm1.vm.provision "shell", path: "docker-install.sh"
         end
     end
 
@@ -23,14 +23,14 @@ Vagrant.configure("2") do |config|
     (1..SECOND_NODE).each do |num|
         config.vm.define "vm2_#{num}" do |vm2|
             vm2.vm.box = IMAGE_DEBIAN_13
-            vm2.vm.hostname = "vm2_#{num}"
+            vm2.vm.hostname = "vm2-#{num}"
             vm2.vm.network "private_network", ip: "192.168.56.20#{num}"
             vm2.vm.provider "virtualbox" do |provider|
                 provider.name = "vm2_#{num}"
                 provider.memory = 2048
                 provider.cpus = 1
             end
-            vm2.vm.provision "shell", path: "install-ansible.sh"
+            vm2.vm.provision "shell", path: "ansible-install.sh"
         end
     end
 end
